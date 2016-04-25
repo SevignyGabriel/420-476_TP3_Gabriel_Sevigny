@@ -1,0 +1,109 @@
+﻿@model IEnumerable<_420_476_TP3_Gabriel_Sevigny.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LoggedIn.cshtml";
+}
+
+<h2>Index</h2>
+
+@Html.ActionLink("Create New", "Create")
+@using (Html.BeginForm("Index", "Products", FormMethod.Post))
+{
+    <div style="float: left;">
+        <p style="font-weight: bold; font-size: 115%; margin: 0;">Categories</p>
+        <select size="4" name="category">
+            <option selected>All</option>
+            @foreach (SelectListItem i in ViewBag.CategoryID)
+            {
+                <option>@i.Text.ToString()</option>
+            }
+        </select>
+    </div>
+    <input type="submit" style="float: right;" />
+    <input type="text" name="filter" placeholder="Enter a product name" style="float: right;" />
+}
+<br /> <br /> <br />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QuantityPerUnit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitsInStock)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitsOnOrder)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReorderLevel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Discontinued)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Photo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Category.CategoryName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Supplier.CompanyName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.QuantityPerUnit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UnitPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UnitsInStock)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UnitsOnOrder)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReorderLevel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Discontinued)
+        </td>
+        <td>
+            @if (@item.Photo == null)
+            {
+                <img src="~/Content/Images/No_image_available.svg" alt="Product image" width="150" height="150" />
+            }
+            else
+            {
+                <img src="@Path.Combine("/Content/Images/", @item.Photo)" alt="Product image" width="150" height="150" />
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category.CategoryName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Supplier.CompanyName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ProductID }) <br />
+            @Html.ActionLink("Details", "Details", new { id=item.ProductID }) <br />
+            @Html.ActionLink("Delete", "Delete", new { id=item.ProductID })
+        </td>
+    </tr>
+}
+
+</table>

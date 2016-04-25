@@ -1,0 +1,59 @@
+﻿@model _420_476_TP3_Gabriel_Sevigny.Models.User
+
+@{
+    ViewBag.Title = "Login";
+    bool disabled;
+    if (Session["loggedIn"] != null)
+    {
+        if ((bool)Session["loggedIn"])
+        {
+            Layout = "~/Views/Shared/_LoggedIn.cshtml";
+            TempData["Message"] = "You're logged in!";
+            disabled = true;
+        }
+        else { disabled = false; }
+    }
+    else { disabled = false; }
+}
+
+<h2>Login</h2>
+@using (Html.BeginForm("Login", "Login", FormMethod.Post, Model))
+{
+    <div>
+        @{
+            @Html.LabelFor(model => Model.Login)
+            if (Request.Cookies["RememberMe"] != null)
+            {
+                if (Request.Cookies["RememberMe"]["Login"] != null)
+                {
+                    @Html.TextBox("Login", Request.Cookies["RememberMe"]["Login"], new { @style = " margin-left: 42px; " })<br />
+                }
+            }
+            else {
+                @Html.TextBoxFor(model => Model.Login, new { @style = " margin-left: 42px; " }) <br />
+            }
+
+            @Html.LabelFor(model => Model.Password)
+            @Html.PasswordFor(model => Model.Password, new { @style = " margin-left: 15px; " })<br />
+
+            if (Request.Cookies["RememberMe"] != null)
+            {
+                if (Request.Cookies["RememberMe"]["Login"] != null)
+                {
+                    <input type="checkbox" name="remember" value="checked" checked /> <lablel>Remember me on this computer</lablel><br />
+                }
+            }
+            else {
+                <input type="checkbox" name="remember" value="checked" /> <lablel>Remember me on this computer</lablel><br />
+            }
+            if (disabled)
+            {
+                <input type="submit" value="Submit" disabled />
+            }
+            else { <input type="submit" value="Submit" /> }
+        }
+    </div>
+
+            }
+
+<p style="color:red">@TempData["Message"]</p>
